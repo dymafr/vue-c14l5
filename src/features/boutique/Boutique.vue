@@ -29,7 +29,7 @@ if (Array.isArray(products)) {
   state.products = [products];
 }
 
-function addProductToCart(productId: number): void {
+function addProductToCart(productId: string): void {
   const product = state.products.find((product) => product._id === productId);
   if (product) {
     const productInCart = state.cart.find(
@@ -43,7 +43,7 @@ function addProductToCart(productId: number): void {
   }
 }
 
-function removeProductFromCart(productId: number): void {
+function removeProductFromCart(productId: string): void {
   const productFromCart = state.cart.find(
     (product) => product._id === productId
   );
