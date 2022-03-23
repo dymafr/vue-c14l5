@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Shop from './components/Shop/Shop.vue';
 import Cart from './components/Cart/Cart.vue';
-import data from '../../data/product';
 import { computed, reactive } from 'vue';
 import type {
   FiltersInterface,
@@ -16,10 +15,18 @@ const state = reactive<{
   cart: ProductCartInterface[];
   filters: FiltersInterface;
 }>({
-  products: data,
+  products: [],
   cart: [],
   filters: { ...DEFAULT_FILTERS },
 });
+
+const products = await (await fetch('https://restapi.fr/api/projetproducts')).json()
+if (Array.isArray(products)) {
+    state.products = products
+} else {
+    state.products = [products]
+}
+
 
 function addProductToCart(productId: number): void {
   const product = state.products.find((product) => product.id === productId);
