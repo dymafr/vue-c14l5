@@ -20,19 +20,20 @@ const state = reactive<{
   filters: { ...DEFAULT_FILTERS },
 });
 
-const products = await (await fetch('https://restapi.fr/api/projetproducts')).json()
+const products = await (
+  await fetch('https://restapi.fr/api/projetproducts')
+).json();
 if (Array.isArray(products)) {
-    state.products = products
+  state.products = products;
 } else {
-    state.products = [products]
+  state.products = [products];
 }
 
-
 function addProductToCart(productId: number): void {
-  const product = state.products.find((product) => product.id === productId);
+  const product = state.products.find((product) => product._id === productId);
   if (product) {
     const productInCart = state.cart.find(
-      (product) => product.id === productId
+      (product) => product._id === productId
     );
     if (productInCart) {
       productInCart.quantity++;
@@ -44,10 +45,10 @@ function addProductToCart(productId: number): void {
 
 function removeProductFromCart(productId: number): void {
   const productFromCart = state.cart.find(
-    (product) => product.id === productId
+    (product) => product._id === productId
   );
   if (productFromCart?.quantity === 1) {
-    state.cart = state.cart.filter((product) => product.id !== productId);
+    state.cart = state.cart.filter((product) => product._id !== productId);
   } else {
     productFromCart.quantity--;
   }
